@@ -12,6 +12,6 @@ public class LEETCODE_435_MIDDLE {
     }
 
     public static int eraseOverlapIntervals(int[][] intervals) {
-
+        return 0;
     }
 }
