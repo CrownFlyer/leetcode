@@ -45,11 +45,12 @@ public class Section3 {
 
     public static void getNext(int[] nums) {
         int i = nums.length - 2;
-        // 找到第一个顺序对，如果没找到，则该序列已经是一个降序序列
+        // 找到第一个顺序对，如果没找到，则该序列已经是一个降序序列，找到了，则找到了尽可能靠右的较小数
         while (i >= 0 && nums[i] >= nums[i + 1]) i--;
 
         if (i >= 0) {
             int j = nums.length - 1;
+            // 找尽可能小的较大数，由于前面已经保证右边的是降序排列，所以从右往左遍历可以保证尽可能小
             while (j >= 0 && nums[i] >= nums[j]) j--;
             swap(nums, i, j);
         }
