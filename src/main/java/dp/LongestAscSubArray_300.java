@@ -9,14 +9,13 @@ import org.junit.Test;
  * @create: 2021-02-08 18:10
  */
 public class LongestAscSubArray_300 {
-    @Test
-    public void test(){
-       int[] nums = {10,9,2,5,3,7,101,18};
+    public static void main(String[] args) {
+        int[] nums = {10, 9, 2, 5, 3, 7, 101, 18};
         int maxlen = lengthOfLIS(nums);
         System.out.println(maxlen);
     }
 
-    public int lengthOfLIS(int[] nums) {
+    public int lengthOfLIS1(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }
@@ -35,4 +34,33 @@ public class LongestAscSubArray_300 {
         }
         return maxlen;
     }
+
+    public static int lengthOfLIS(int[] nums) {
+        int len = 1, n = nums.length;
+        if (n == 0) {
+            return 0;
+        }
+        // d[i]:表示长度为 i 的最长上升子序列的末尾元素的最小值
+        int[] d = new int[n + 1];
+        d[len] = nums[0];
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] > d[len]) {
+                d[++len] = nums[i];
+            } else {
+                int l = 1, r = len, pos = 0; // 如果找不到说明所有的数都比 nums[i] 大，此时要更新 d[1]，所以这里将 pos 设为 0
+                while (l <= r) {
+                    int mid = (l + r) >> 1;
+                    if (d[mid] < nums[i]) { // 如果通过则说明新的元素可以替换
+                        pos = mid;
+                        l = mid + 1;
+                    } else {
+                        r = mid - 1;
+                    }
+                }
+                d[pos + 1] = nums[i];   //将新的元素放入到对应的位置
+            }
+        }
+        return len;
+    }
+
 }

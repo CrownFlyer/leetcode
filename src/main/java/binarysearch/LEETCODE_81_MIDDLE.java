@@ -62,9 +62,11 @@ public class LEETCODE_81_MIDDLE {
     public static int search(int[] nums, int target) {
         int n = nums.length;
         int l = 0, r = n - 1;
+        // 这里的控制条件取等号，大多是为了在while中return mid，不取等号就跳出while 返回l的值
         while (l <= r) {
             if (nums[l] == target) return l;
             int mid = (l + r) >> 1;
+            // 这里不返回是由于其前面可能仍有相同的元素
             if (nums[mid] == target) r = mid;
             else if (nums[mid] > nums[0]) {
                 if (nums[0] <= target && nums[mid] > target) r = mid - 1;
