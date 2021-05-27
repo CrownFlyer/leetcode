@@ -1,5 +1,7 @@
 package binarysearch;
 
+import org.junit.Test;
+
 /**
  * @description:
  * @author: ZMC
@@ -11,6 +13,7 @@ public class LEETCODE_33_MIDDLE {
         int[] arr = {1,1,1,1,2,1,1,1};
         System.out.println(search(arr, 2));
     }
+
 
     public static int search(int[] arr, int target) {
         int n = arr.length;

@@ -16,8 +16,15 @@ import java.util.stream.Collectors;
  */
 public class LEETCODE_354_HARD {
     public static void main(String[] args) {
-        int[][] env = {{5, 4}, {6, 4}, {6, 7}, {2, 3}};
-        System.out.println(maxEnvelopes(env));
+        int[][] env = {{1, 0}, {2, 2}, {2, 3}, {2, 4}, {2, 5}, {3, 3}, {4, 1},{5,2}};
+//        System.out.println(maxEnvelopes(env));
+
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(3);
+        list.add(5);
+        list.add(6);
+        System.out.println(binarySearch(list, 3));
     }
 
     // dp
@@ -56,7 +63,7 @@ public class LEETCODE_354_HARD {
             else return o2[1] - o1[1];  // 第一关键词相同时，由于放入条件是严格大于才行，这里降序就保证了完全筛选出这一部分，妙！
         });
 
-        // 设 f[j] 表示 h 的前 i 个元素可以组成的长度为 j 的最长严格递增子序列的末尾元素的最小值
+        // 设 f[j] 表示 h 的前 i 个元素可以组成的长度为 j 的最长严格递增子序列的第二个关键词的最小值
         List<Integer> dp = new ArrayList<>();
         dp.add(envelopes[0][1]);
         for (int i = 1; i < n; ++i) {
@@ -73,10 +80,11 @@ public class LEETCODE_354_HARD {
 
     public static int binarySearch(List<Integer> f, int target) {
         int l = 0, r = f.size() - 1;
+        // 可以这样理解，找一个不大于target的值，当条件成立的时候，l向右移，左边往里缩，反之，不成立的时候，r往左缩，直到l=r，找到小于等于target最大的值
         while (l < r) {
             int m = (l + r) >> 1;
             if (f.get(m) < target) l = m + 1;
-            else r = m;
+            else r = m; // 取等号的时候包含进来了，所以能取到=target的值
         }
         return l;
     }
