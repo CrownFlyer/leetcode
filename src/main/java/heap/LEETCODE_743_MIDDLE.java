@@ -1,9 +1,6 @@
 package heap;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.OptionalInt;
+import java.util.*;
 
 /**
  * @description:
@@ -19,35 +16,17 @@ public class LEETCODE_743_MIDDLE {
         System.out.println(test.networkDelayTime(times, 4, 2));
     }
 
-    HashMap<Integer, ArrayList<ArrayList<Integer>>> map = new HashMap<>();
-    int time = 0;
-    int cnt = 0;
+    Map<Integer,Integer> dist;
     public int networkDelayTime(int[][] times, int n, int k) {
-        for (int[] tmp : times) {
-            ArrayList list = new ArrayList();
-            list.add(tmp[1]);
-            list.add(tmp[2]);
-            ArrayList<ArrayList<Integer>> tmpList = map.getOrDefault(tmp[0], new ArrayList<>());
-            tmpList.add(list);
-            map.put(tmp[0], tmpList);
+        HashMap<Integer, List<int[]>> graph = new HashMap<>();
+        for (int[] edge : times) {
+            graph.getOrDefault(edge[0], new ArrayList<int[]>()).add(new int[]{edge[2],edge[1]});
         }
-
-        time += dfs(k);
-        if(cnt!=n) return -1;
-        return time;
+        return 0;
     }
 
     public int dfs(int k) {
-        ArrayList<ArrayList<Integer>> list = map.get(k);
-        cnt++;
-        if (list == null) return 0;
-        int n = list.size();
-        int[] tempTime = new int[n];
-        for (int i = 0; i < n; i++) {
-            tempTime[i] = dfs(list.get(i).get(0))+list.get(i).get(1);
-        }
-        OptionalInt max = Arrays.stream(tempTime).max();
-        return max.getAsInt();
+        return 0;
     }
 
 
