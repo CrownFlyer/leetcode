@@ -16,17 +16,39 @@ public class LEETCODE_743_MIDDLE {
         System.out.println(test.networkDelayTime(times, 4, 2));
     }
 
-    Map<Integer,Integer> dist;
+    Map<Integer, Integer> dist = new HashMap<>();
+
     public int networkDelayTime(int[][] times, int n, int k) {
         HashMap<Integer, List<int[]>> graph = new HashMap<>();
         for (int[] edge : times) {
-            graph.getOrDefault(edge[0], new ArrayList<int[]>()).add(new int[]{edge[2],edge[1]});
+            if (!graph.containsKey(edge[0]))
+                graph.put(edge[0], new ArrayList<int[]>());
+            graph.get(edge[0]).add(new int[]{edge[2], edge[1]});
         }
-        return 0;
+        // 按照耗时进行排序
+        for (Integer node : graph.keySet()) {
+            Collections.sort(graph.get(node), (x, y) -> x[0] - y[0]);
+        }
+        for (int node = 1; node <= n; node++) {
+            dist.put(node, Integer.MAX_VALUE);
+        }
+        dfs(graph, k, 0);
+        int res = 0;
+        for (Integer cand : dist.values()) {
+            if (cand == Integer.MAX_VALUE) return -1;
+            res = Math.max(res, cand);
+        }
+        return res;
     }
 
-    public int dfs(int k) {
-        return 0;
+    public void dfs(Map<Integer, List<int[]>> graph, int node, int elapsed) {
+        if (elapsed >= dist.get(node)) return;
+        dist.put(node, elapsed);
+        if (graph.containsKey(node)) {
+            for (int[] info : graph.get(node)) {
+                dfs(graph, info[1], elapsed + info[0]);
+            }
+        }
     }
 
 

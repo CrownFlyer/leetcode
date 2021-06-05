@@ -8,7 +8,7 @@ package Chores;
  */
 public class trans_middle2large {
     public static void main(String[] args) {
-        String s = "[[5,-4,-3,4],[-3,-4,4,5],[5,1,5,-4]]";
+        String s = "[[1,2,2],[3,8,2],[5,3,5]]";
         System.out.println(trans(s));
     }
 
