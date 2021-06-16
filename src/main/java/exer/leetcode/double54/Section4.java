@@ -11,5 +11,7 @@ public class Section4 {
         Section4 test = new Section4();
 
     }
-
+//    public int minOperationsToFlip(String expression) {
+//
+//    }
 }
