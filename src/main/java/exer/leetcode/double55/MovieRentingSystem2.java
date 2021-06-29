@@ -6,6 +6,7 @@ class MovieRentingSystem2 {
 
     // 借出排序:
     // int[]:[shopId,movieId,price]:
+    // 优先队列的iterator不是按照自定义顺序的，自定义顺序需要用poll
     private PriorityQueue<int[]> rentedQueue;
     // 哈希提高查找效率
     private HashMap<Long, Integer> movies;
