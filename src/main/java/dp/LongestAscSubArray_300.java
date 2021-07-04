@@ -15,10 +15,12 @@ public class LongestAscSubArray_300 {
         System.out.println(maxlen);
     }
 
+    // 单串dp:O(n^2)
     public int lengthOfLIS1(int[] nums) {
         if (nums.length == 0) {
             return 0;
         }
+        // dp[i]:以第i个元素为末尾的子序列的最长递增子序列个数
         int[] dp = new int[nums.length];
         dp[0] = 1;
         int maxlen = 1;
@@ -35,6 +37,7 @@ public class LongestAscSubArray_300 {
         return maxlen;
     }
 
+    // 贪心+二分查找:O(nlogn)
     public static int lengthOfLIS(int[] nums) {
         int len = 1, n = nums.length;
         if (n == 0) {
@@ -47,7 +50,8 @@ public class LongestAscSubArray_300 {
             if (nums[i] > d[len]) {
                 d[++len] = nums[i];
             } else {
-                int l = 1, r = len, pos = 0; // 如果找不到说明所有的数都比 nums[i] 大，此时要更新 d[1]，所以这里将 pos 设为 0
+                // 如果找不到说明所有的数都比 nums[i] 大，此时要更新 d[1]，所以这里将 pos 设为 0
+                int l = 1, r = len, pos = 0;
                 while (l <= r) {
                     int mid = (l + r) >> 1;
                     if (d[mid] < nums[i]) { // 如果通过则说明新的元素可以替换
@@ -57,6 +61,8 @@ public class LongestAscSubArray_300 {
                         r = mid - 1;
                     }
                 }
+                // 这里是降低了其上升的速度，但其后面比其大的元素不满足子序列的条件（下标比当前新插入的元素小）
+                // 只有当新的上升缓慢的元素全部替换后才会将新的子序列生成，len才会+
                 d[pos + 1] = nums[i];   //将新的元素放入到对应的位置
             }
         }
