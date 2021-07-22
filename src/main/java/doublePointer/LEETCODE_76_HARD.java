@@ -48,7 +48,6 @@ public class LEETCODE_76_HARD {
         }
         return resL == -1 ? "" : s.substring(resL, resR);
     }
-
     public boolean check() {
         Iterator<Map.Entry<Character, Integer>> iter = dst.entrySet().iterator();
         while (iter.hasNext()) {
@@ -56,6 +55,45 @@ public class LEETCODE_76_HARD {
             Character k = entry.getKey();
             Integer v = entry.getValue();
             if (cnt.getOrDefault(k, 0) < v) return false;
+        }
+        return true;
+    }
+
+    // ----------------------------------------------------
+    Map<Character,Integer> cur = new HashMap<>();
+    Map<Character,Integer> target = new HashMap<>();
+
+    public String minWindow1(String s, String t) {
+        int tLen = t.length();
+        int sLen = s.length();
+        if(sLen<tLen) return "";
+
+        for (int i = 0; i < tLen; i++) {
+            target.put(t.charAt(i),target.getOrDefault(t.charAt(i),0)+1);
+        }
+
+        int len = sLen+1;
+        String res = "";
+        int l = 0,r = 0;
+        boolean f = false;
+        while(r<sLen){
+            cur.put(s.charAt(r),cur.getOrDefault(s.charAt(r++),0)+1);
+            while (check1(cur,target)){
+                cur.put(s.charAt(l),cur.get(s.charAt(l++))-1);
+                f = true;
+            }
+            if(f&&r-l+1<len) {
+                res = s.substring(l-1,r);
+                len = r-l+1;
+                f = false;
+            }
+        }
+        return res;
+    }
+
+    public boolean check1(Map<Character,Integer> cur,Map<Character,Integer> target){
+        for (Map.Entry<Character, Integer> entry : target.entrySet()) {
+            if(cur.getOrDefault(entry.getKey(),0)<entry.getValue()) return false;
         }
         return true;
     }

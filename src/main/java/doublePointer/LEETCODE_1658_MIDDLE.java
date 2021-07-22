@@ -14,7 +14,27 @@ public class LEETCODE_1658_MIDDLE {
         System.out.println(minOperations(arr, 128056));
     }
 
+    // 前缀和 + 遍历 O(n^2)
+    public int minOperations2(int[] nums, int x) {
+        int n = nums.length;
+        int[] pre = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            pre[i] = pre[i - 1] + nums[i - 1];
+        }
 
+        int res = Integer.MAX_VALUE;
+        int left = 0;
+        while (pre[left] <= x) {
+            int cur = pre[left];
+            int right = n;
+            while (cur < x) {
+                cur = pre[left] + pre[n] - pre[--right];
+            }
+            if (cur == x) res = Math.min(res, left + n - right);
+            left++;
+        }
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
     // 超时:O(n^2)
     public static int minOperations1(int[] nums, int x) {
         int n = nums.length;
