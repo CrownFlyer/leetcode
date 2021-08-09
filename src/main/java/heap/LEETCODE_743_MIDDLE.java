@@ -52,4 +52,37 @@ public class LEETCODE_743_MIDDLE {
     }
 
 
+    // ----------------------------------------------------------------
+    // Dijkstra
+    public int networkDelayTime1(int[][] times, int n, int k) {
+        int[][] g = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(g[i], Integer.MAX_VALUE);
+        }
+
+        for (int[] time : times) {
+            // 编号转换为下标
+            g[time[0] - 1][time[1] - 1] = time[2];
+        }
+
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        // 从k开始出发
+        dist[k - 1] = 0;
+        boolean[] visited = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            int x = -1;
+            for (int j = 0; j < n; j++) {
+                if (!visited[j] && (x == -1 || dist[j] < dist[x])) {
+                    x = j;
+                }
+            }
+            visited[x] = true;
+            for (int j = 0; j < n; j++) {
+                dist[j] = Math.min(dist[j], dist[x] + g[x][j]);
+            }
+        }
+        int res = Arrays.stream(dist).max().getAsInt();
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
 }

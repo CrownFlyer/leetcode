@@ -13,11 +13,11 @@ import java.util.*;
 public class LEETCODE_210_MIDDLE {
     @Test
     public void test() {
-        int[][] p = {{1,0},{2,0},{3,1},{3,2}};
+        int[][] p = {{1, 0}, {2, 0}, {3, 1}, {3, 2}};
         System.out.println(findOrder(4, p));
     }
 
-    public int[] findOrder(int numCourses, int[][] prerequisites) {
+    public int[] findOrder1(int numCourses, int[][] prerequisites) {
         HashMap<Integer, Set<Integer>> adj = new HashMap<>(numCourses);
         int n = prerequisites.length;
         int[] inDegree = new int[numCourses];
@@ -51,5 +51,45 @@ public class LEETCODE_210_MIDDLE {
             if (inDegree[i] > 0) return new int[0];
         }
         return list.stream().mapToInt(Integer::valueOf).toArray();
+    }
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        int[] res = new int[numCourses];
+
+        if (prerequisites == null || prerequisites.length == 0) {
+            for (int i = 0; i < numCourses; i++) {
+                res[i] = i;
+            }
+            return res;
+        }
+
+        // 计算入度
+        int[] inDegree = new int[numCourses];
+        Queue<Integer> zeroDegree = new LinkedList<>();
+
+        for (int[] prerequisite : prerequisites) {
+            inDegree[prerequisite[0]]++;
+        }
+
+        for (int i = 0; i < numCourses; i++) {
+            if (inDegree[i] == 0) zeroDegree.offer(i);
+        }
+        int i = 0;
+        while (!zeroDegree.isEmpty()) {
+            Integer e = zeroDegree.poll();
+            res[i++] = e;
+            for (int[] prerequisite : prerequisites) {
+                if (prerequisite[1] == e) {
+                    inDegree[prerequisite[0]]--;
+                    if (inDegree[prerequisite[0]] == 0) zeroDegree.offer(prerequisite[0]);
+                }
+            }
+        }
+
+        for (int indegree : inDegree) {
+            if (indegree != 0) return new int[0];
+        }
+
+        return res;
     }
 }

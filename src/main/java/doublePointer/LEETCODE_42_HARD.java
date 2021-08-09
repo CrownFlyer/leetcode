@@ -38,4 +38,18 @@ public class LEETCODE_42_HARD {
         return total - blockTotal;
 
     }
+
+    public int trap1(int[] height) {
+        int res = 0;
+        int l = 0, r = height.length - 1;
+        int lMax = 0, rMax = 0;
+        while (l < r) {
+            lMax = Math.max(lMax, height[l]);
+            rMax = Math.max(rMax, height[r]);
+            // 能保证的是低水位的可以存储
+            if (height[l] <= height[r]) res += lMax - height[l++];
+            else res += rMax - height[r--];
+        }
+        return res;
+    }
 }
