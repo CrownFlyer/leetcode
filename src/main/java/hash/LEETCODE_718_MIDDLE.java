@@ -32,10 +32,10 @@ public class LEETCODE_718_MIDDLE {
         return max;
     }
 
-    // dp:O(n^2) O(n^2)
+    // dp:O(mn) O(mn)
     public int findLength2(int[] A, int[] B) {
         int m = A.length, n = B.length;
-        // dp[i][j]:A[i] B[j]的最长公共前缀
+        // dp[i][j]:以A[i] B[j]结尾的最长公共前缀
         int[][] dp = new int[m + 1][n + 1];
         int res = 0;
         for (int i = m - 1; i >= 0; i--) {
@@ -51,11 +51,13 @@ public class LEETCODE_718_MIDDLE {
     public int findLength3(int[] A, int[] B) {
         int res = 0;
         int m = A.length, n = B.length;
+        // 定A
         for (int i = 0; i < m; i++) {
             int len = Math.min(n, m - i);
             res = Math.max(maxLength(A, B, i, 0, len), res);
         }
 
+        // 定B
         for (int i = 0; i < n; i++) {
             int len = Math.min(n - i, m);
             res = Math.max(maxLength(A, B, 0, i, len), res);
@@ -63,6 +65,7 @@ public class LEETCODE_718_MIDDLE {
         return res;
     }
 
+    // 找到A[i:i+len) B[j:j+len)的最长公共子数组
     public int maxLength(int[] A, int[] B, int i, int j, int len) {
         int res = 0, tempMax = 0;
         for (int k = 0; k < len; k++) {

@@ -84,42 +84,28 @@ public class RegexMatch_10 {
 //    }
 
     public boolean isMatch(String s, String p) {
-        int m = s.length();
-        int n = p.length();
+        int m = s.length(), n = p.length();
+        // dp[[i][j]:s的前i个字符和p的前j个字符是否匹配
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
 
-        boolean[][] f = new boolean[m + 1][n + 1];
-        f[0][0] = true;
+        // 这里必须从0开始，因为s中0个字符也可能匹配p中的多个字符串，但0时不能使用matches匹配
         for (int i = 0; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
-                if (p.charAt(j - 1) == '*') {   //匹配到p的第j个字符为*
-                    f[i][j] = f[i][j - 2];  //此处有可能下标超界，避免输入*开头的匹配字符串，保留前面字符串的匹配状态
-                    if (matches(s, p, i, j - 1)) {
-                        f[i][j] = f[i][j] || f[i - 1][j];   //或上的是对于a* aa这样的情况
-                    }
+                if (p.charAt(j - 1) == '*') {
+                    dp[i][j] = dp[i][j - 2];
+                    if (matches(s, p, i, j - 1)) dp[i][j] |= dp[i - 1][j];
                 } else {
-                    if (matches(s, p, i, j)) {
-                        f[i][j] = f[i - 1][j - 1];
-                    }
+                    if (matches(s, p, i, j)) dp[i][j] = dp[i - 1][j - 1];
                 }
             }
         }
-        return f[m][n];
+        return dp[m][n];
     }
 
-    /*
-     * 功能描述:返回s的第i个字符和p的第j个字符是否匹配
-     * @Param: [s, p, i, j]
-     * @Return: boolean
-     * @Author: ZMC
-     * @Date: 2021/2/16 16:48
-     */
     public boolean matches(String s, String p, int i, int j) {
-        if (i == 0) {   //不然会使上面匹配单个非任意字符的i=0超界
-            return false;
-        }
-        if (p.charAt(j - 1) == '.') {
-            return true;
-        }
+        if (i == 0) return false;
+        if (p.charAt(j - 1) == '.') return true;
         return s.charAt(i - 1) == p.charAt(j - 1);
     }
 }
