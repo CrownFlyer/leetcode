@@ -23,7 +23,7 @@ public class LEETCODE_673_MIDDLE {
         int n = nums.length;
         if (n <= 1) return n;
 
-        int[] dp = new int[n];  // 以nums[i]结尾的最长子序列的长度-1
+        int[] dp = new int[n];  // 以nums[i]结尾的最长子序列的长度
         Arrays.fill(dp,1);
         int[] cnt = new int[n]; // 以nums[i]结尾的最长子序列的数量
         Arrays.fill(cnt, 1);

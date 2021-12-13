@@ -80,7 +80,7 @@ public class LEETCODE_802_MIDDLE {
         Queue<Integer> q = new LinkedList<>();
 
         for (int i = 0; i < n; i++) {
-            if(G[i].length==0) q.offer(i);
+            if (G[i].length == 0) q.offer(i);
             for (int e : G[i]) {
                 graph.get(i).add(e);
                 rgraph.get(e).add(i);
@@ -92,15 +92,46 @@ public class LEETCODE_802_MIDDLE {
             safe[e] = true;
             for (Integer former : rgraph.get(e)) {
                 graph.get(former).remove(e);
-                if(graph.get(former).isEmpty()) q.offer(former);
+                if (graph.get(former).isEmpty()) q.offer(former);
             }
         }
 
+
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            if(safe[i]) res.add(i);
+            if (safe[i]) res.add(i);
         }
         return res;
+    }
+
+    // dfs + 三色标记
+    public List<Integer> eventualSafeNodes2(int[][] G) {
+        int n = G.length;
+        int[] color = new int[n];
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (safe(G, color, i))
+                res.add(i);
+        }
+        return res;
+    }
+
+    // 0:该节点尚未被访问
+    // 1:该节点位于递归栈中
+    // 2:安全点
+    private boolean safe(int[][] g, int[] color, int i) {
+        // 如果位于递归栈的节点再一次被访问，color[i] = 1 会返回false
+        if (color[i] > 0) return color[i] == 2;
+
+        color[i] = 1;
+        // 访问接下来的节点
+        for (int x : g[i]) {
+            if (!safe(g, color, x))
+                return false;
+        }
+
+        color[i] = 2;
+        return true;
     }
 
 }

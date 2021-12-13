@@ -24,11 +24,11 @@ public class LEETCODE_105_MIDDLE {
         for (int i = 0; i < n; i++) {
             map.put(inorder[i], i);
         }
-        return helper(preorder, inorder, 0, n - 1, 0, n - 1);
+        return helper(preorder, 0, n - 1, 0, n - 1);
     }
 
     // 递归
-    public TreeNode helper(int[] preorder, int[] inorder, int preorder_left, int preorder_right, int inorder_left, int inorder_right) {
+    public TreeNode helper(int[] preorder, int preorder_left, int preorder_right, int inorder_left, int inorder_right) {
         if (preorder_left > preorder_right) return null;
         // 前序遍历中的第一个节点就是根节点
         int preorder_root = preorder_left;
@@ -39,8 +39,8 @@ public class LEETCODE_105_MIDDLE {
         TreeNode root = new TreeNode(preorder[preorder_root]);
         // 得到左子树的节点数目
         int left_subtree_size = inorder_root - inorder_left;
-        root.left = helper(preorder, inorder, preorder_left + 1, preorder_left + left_subtree_size, inorder_left, inorder_root - 1);
-        root.right = helper(preorder, inorder, preorder_left + left_subtree_size + 1, preorder_right, inorder_root + 1, inorder_right);
+        root.left = helper(preorder, preorder_left + 1, preorder_left + left_subtree_size, inorder_left, inorder_root - 1);
+        root.right = helper(preorder, preorder_left + left_subtree_size + 1, preorder_right, inorder_root + 1, inorder_right);
         return root;
     }
 

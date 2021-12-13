@@ -1,0 +1,24 @@
+package exer.leetcode.week269;
+
+class Solution2 {
+    public int minimumDeletions(int[] nums) {
+        // if(nums.length == 1) return 1;
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        int minIndex = -1, maxIndex = -1;
+        int n = nums.length;
+        for(int i = 0;i<n;i++){
+            if(nums[i]<min){
+                min = nums[i];
+                minIndex = i;
+            }
+            if(nums[i]>max){
+                max = nums[i];
+                maxIndex = i;
+            }
+        }
+        int temp1 = Math.min(minIndex,maxIndex);
+        int temp2 = Math.max(minIndex,maxIndex);
+        // 正向删 逆向删 两边删
+        return Math.min(Math.min(temp2 + 1,n - temp1),temp1 + 1 + n-temp2);
+    }
+}

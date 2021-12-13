@@ -38,6 +38,8 @@ public class quickSort {
         quickSort(nums, i + 2, r);
     }
 
+
+
     public void swap(int[] nums, int i, int j) {
         // 如果引用相同，异或之后为0
         if (i == j) return;
