@@ -14,7 +14,6 @@ public class Solution4 {
 
     @Test
     public void test() {
-
         int[][] ps = {{1, 2}, {1, 3}, {2, 1}};
         int[][] res = validArrangement(ps);
         for (int[] re : res) {
